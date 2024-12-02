@@ -6,6 +6,20 @@ export default function App(){
   const [shortUrl, setShortUrl] = useState('');
 
   const handleShorten = async () => {
+
+    const isValidUrl = (string) => {
+      try {
+        new URL(string);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    };
+  
+    if (!isValidUrl(longUrl)) {
+      alert('Please enter a valid URL!');
+      return;
+    }
     try {
       const response = await fetch('https://lilurl-back.onrender.com/shorten', {
         method: 'POST',
@@ -15,7 +29,7 @@ export default function App(){
         body: JSON.stringify({ longUrl }),
       });
       const data = await response.json();
-      setShortUrl(`https://lilurl-back.onrender.com/${data.shortUrl}`);
+      setShortUrl(`lilurl-back.onrender.com/${data.shortUrl}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
     }
