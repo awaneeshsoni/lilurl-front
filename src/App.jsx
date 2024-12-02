@@ -29,7 +29,7 @@ export default function App(){
     }
     setLoading(true);
     try {
-      const response = await fetch('https://lil-url.vercel.app/shorten', {
+      const response = await fetch('https://lilurl-back2.vercel.app/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ async function redirect(){
     return;
   }
   try {
-    const response = await fetch(`https://lil-url.vercel.app/${params}`)
+    const response = await fetch(`https://lilurl-back2.vercel.app/${params}`)
     const data = await response.json();
     if(response.status==200){
       //redirect
