@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const currentUrl = window.location.pathname;
+const params = currentUrl.substring(1);
+console.log(params)
+var message = "";
+
+
 export default function App(){
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
@@ -31,7 +37,7 @@ export default function App(){
         body: JSON.stringify({ longUrl }),
       });
       const data = await response.json();
-      setShortUrl(`lil-url.vercel.app/${data.shortUrl}`);
+      setShortUrl(`lilurl.vercel.app/${data.shortUrl}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
       alert('Something went wrong. Please try again.');
@@ -54,6 +60,7 @@ export default function App(){
 
   return (
     <div className="container">
+      <p>{message ? message : ""}</p>
       <h1 className="title">LilURL</h1>
       <input
         type="text"
@@ -73,3 +80,24 @@ export default function App(){
     </div>
   );
 };
+
+async function redirect(){
+  if(params == "" || undefined){
+    return;
+  }
+  try {
+    const response = await fetch(`https://lil-url.vercel.app/${params}`)
+    const data = await response.json();
+    if(response.status==200){
+      //redirect
+      console.log(data.longUrl)
+      window.location.href = data.longUrl
+    }
+    else {
+      message = "url not present in database. Please create new..."
+    }
+  } catch (error) {
+    console.error('Error', error);
+  }}
+
+redirect();
