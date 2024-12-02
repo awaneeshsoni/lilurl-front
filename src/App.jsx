@@ -23,7 +23,7 @@ export default function App(){
     }
     setLoading(true);
     try {
-      const response = await fetch('https://lilurl-back.onrender.com/shorten', {
+      const response = await fetch('https://lil-url.vercel.app/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export default function App(){
         body: JSON.stringify({ longUrl }),
       });
       const data = await response.json();
-      setShortUrl(`lilurl-back.onrender.com/${data.shortUrl}`);
+      setShortUrl(`lil-url.vercel.app//${data.shortUrl}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
       alert('Something went wrong. Please try again.');
