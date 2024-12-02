@@ -4,6 +4,7 @@ import './App.css';
 export default function App(){
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleShorten = async () => {
 
@@ -20,6 +21,7 @@ export default function App(){
       alert('Please enter a valid URL!');
       return;
     }
+    setLoading(true);
     try {
       const response = await fetch('https://lilurl-back.onrender.com/shorten', {
         method: 'POST',
@@ -32,6 +34,9 @@ export default function App(){
       setShortUrl(`lilurl-back.onrender.com/${data.shortUrl}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading animation
     }
   };
 
@@ -56,13 +61,15 @@ export default function App(){
         value={longUrl}
         onChange={(e) => setLongUrl(e.target.value)}
         className="input"
+        disabled={loading}
       />
       <div className="button-row">
-        <button onClick={handleShorten} className="small-button">Shorten It</button>
+        <button onClick={handleShorten} className="small-button">{loading ? 'Loading...' : 'Shorten It'}</button>
         <button onClick={handleClear} className="small-button">New URL</button>
       </div>
-      <button onClick={handleCopy} className="large-button">Copy</button>
+      {loading && <div className="loader"></div>} {/* Loader component */}
       {shortUrl && <p className="output">Your short URL: <a href={`https://${shortUrl}`} target="_blank" rel="noopener noreferrer">{shortUrl}</a></p>}
+      <button onClick={handleCopy} className="large-button">Copy</button>
     </div>
   );
 };
