@@ -37,7 +37,7 @@ export default function App(){
         body: JSON.stringify({ longUrl }),
       });
       const data = await response.json();
-      setShortUrl(`lilurl.vercel.app/${data.shortUrl}`);
+      setShortUrl(`lilurls.vercel.app/${data.shortUrl}`);
     } catch (error) {
       console.error('Error shortening URL:', error);
       alert('Something went wrong. Please try again.');
