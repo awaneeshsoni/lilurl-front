@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 const currentUrl = window.location.pathname;
 const params = currentUrl.substring(1);
 console.log(params)
-var message = "";
-
 
 export default function App(){
+  React.useEffect(() => {
+    redirect();
+  }, []);
+  var data;
+  async function redirect(){
+    if(params == "" || undefined){
+      return;
+    }
+    try {
+      const response = await fetch(`https://lilurl-back2.vercel.app/${params}`)
+      data = await response.json();
+      if(response.status==200){
+        //redirect
+        console.log(data.longUrl)
+        window.location.href = data.longUrl
+      }
+      else {
+        console.log(data.message)
+        setShow(true);
+      }
+    } catch (error) {
+      console.error('Error', error);
+    }}
+  
+  const [show, setShow] = useState(false)
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -60,7 +83,7 @@ export default function App(){
 
   return (
     <div className="container">
-      <p>{message ? message : ""}</p>
+      {show ? <p>"Url not found"</p> : ""}
       <h1 className="title">LilURL</h1>
       <input
         type="text"
@@ -80,24 +103,3 @@ export default function App(){
     </div>
   );
 };
-
-async function redirect(){
-  if(params == "" || undefined){
-    return;
-  }
-  try {
-    const response = await fetch(`https://lilurl-back2.vercel.app/${params}`)
-    const data = await response.json();
-    if(response.status==200){
-      //redirect
-      console.log(data.longUrl)
-      window.location.href = data.longUrl
-    }
-    else {
-      message = "url not present in database. Please create new..."
-    }
-  } catch (error) {
-    console.error('Error', error);
-  }}
-
-redirect();
