@@ -17,11 +17,7 @@
     "mongoose": "^8.8.3",
     
     "react-dom": "^18.3.1",
-<<<<<<< HEAD
-    "react-router-dom": "^7.0.1",
-=======
     "react-router-dom": "^7.0.2",
->>>>>>> 4ff218308cca43ae9a9a6e8090a70e091855f0cc
     "shortid": "^2.2.16"
   },
   "devDependencies": {
